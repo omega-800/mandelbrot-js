@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>mandelbroetli-js</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="mandelbroetli-js" />
+  <link rel="icon" href="favicon.png" />
+</head>
+
+<body>
+  <canvas id="mandelbroetli-canvas" width="1600" height="900"></canvas>
+  <p id="dbg-info"></p>
+  <label for="input-r">R</label>
+  <input type="number" id="input-r" value="10" />
+  <label for="input-g">G</label>
+  <input type="number" id="input-g" value="100" />
+  <label for="input-b">B</label>
+  <input type="number" id="input-b" value="255" />
+  <label for="max-iter">MAX ITER</label>
+  <input type="number" id="max-iter" value="100" />
+  <button id="reset-zoom">RESET ZOOM</button>
+  <script type="module" defer src="main.js"></script>
+</body>
+
+</html>

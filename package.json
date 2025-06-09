@@ -1,0 +1,11 @@
+{
+  "name": "mandelbroetli-js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "run": "npx http-server ./src"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
