@@ -1,11 +1,6 @@
 import { calc_mandelbrot } from "./calc.js";
 const ZOOM_SCALE = 2.0;
 
-function draw_mandelbrot(width, height, frame, pixels, c) {
-  const dbg = document.getElementById("dbg-info");
-  dbg.innerHTML = `x: ${frame.x}, y: ${frame.y}, Z: ${frame.zoom}`;
-}
-
 function main() {
   let frame = { x: 0, y: 0, zoom: 1.0 };
   let c = { r: 10, g: 100, b: 255, a: 255 };
@@ -15,12 +10,13 @@ function main() {
   const b_in = document.getElementById("input-b");
   const max_iter_in = document.getElementById("max-iter");
   const reset = document.getElementById("reset-zoom");
+  const dbg = document.getElementById("dbg-info");
 
   const canvas = document.getElementById("mandelbroetli-canvas");
   const SCREEN_WIDTH = canvas.width;
   const SCREEN_HEIGHT = canvas.height;
   const ctx = canvas.getContext("2d");
-  const img = ctx.createImageData(SCREEN_WIDTH, SCREEN_HEIGHT);
+  //const img = ctx.createImageData(SCREEN_WIDTH, SCREEN_HEIGHT);
 
   function redraw() {
     c = {
@@ -33,12 +29,17 @@ function main() {
       SCREEN_WIDTH,
       SCREEN_HEIGHT,
       frame,
-      img.data,
+      [],
       Number(max_iter_in.value),
       c,
-    );
-    draw_mandelbrot(SCREEN_WIDTH, SCREEN_HEIGHT, frame, img.data, c);
-    ctx.putImageData(img, 0, 0);
+    )
+      .then((d) => {
+        const data = new Uint8ClampedArray(d);
+        const img = new ImageData(data, SCREEN_WIDTH, SCREEN_HEIGHT);
+        ctx.putImageData(img, 0, 0);
+        dbg.innerHTML = `x: ${frame.x}, y: ${frame.y}, Z: ${frame.zoom}`;
+      })
+      .catch(console.error);
   }
 
   redraw();
@@ -47,8 +48,8 @@ function main() {
   b_in.addEventListener("input", redraw);
   max_iter_in.addEventListener("input", redraw);
   reset.addEventListener("click", (e) => {
-      frame = { x: 0, y: 0, zoom: 1.0 };
-      redraw();
+    frame = { x: 0, y: 0, zoom: 1.0 };
+    redraw();
   });
   canvas.addEventListener("click", (e) => {
     if (e.which == 3 || e.button == 3) {
